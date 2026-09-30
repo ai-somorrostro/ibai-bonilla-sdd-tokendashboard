@@ -1,4 +1,4 @@
-/* Visualizations - Chart styling */
+/* Detail View - Charts, tooltip, and side panel styling */
 
 :root {
     --color-bg: #ebd8db;
@@ -6,6 +6,7 @@
     --color-text: #a12737;
     --color-input-bar: #b62225;
     --color-output-bar: #9bc6e5;
+    --color-highlight: #3fb950;
 }
 
 * {
@@ -104,4 +105,148 @@ h1 {
 
 .output-color {
     background: var(--color-output-bar);
+}
+
+/* Tooltip */
+.tooltip {
+    position: fixed;
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    pointer-events: none;
+    z-index: 1000;
+    display: none;
+    max-width: 260px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.tooltip-title {
+    font-weight: 800;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+}
+
+.tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 2px;
+}
+
+.tooltip-row span:last-child {
+    font-family: monospace;
+}
+
+/* Side Panel */
+.side-panel {
+    position: fixed;
+    top: 0;
+    width: 280px;
+    height: 100vh;
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    padding: 12px;
+    overflow-y: auto;
+    z-index: 100;
+    transition: transform 0.2s ease;
+}
+
+#dailyPanel {
+    left: 0;
+    border-left: none;
+    transform: translateX(-100%);
+}
+
+#weeklyPanel {
+    right: 0;
+    border-right: none;
+    transform: translateX(100%);
+}
+
+#dailyPanel.visible,
+#weeklyPanel.visible {
+    transform: translateX(0);
+}
+
+.side-panel h3 {
+    font-size: 0.95rem;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.pinned-models {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pinned-card {
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    padding: 8px;
+    position: relative;
+}
+
+.pinned-card.cost-effective {
+    border-color: var(--color-highlight);
+    box-shadow: 0 0 6px rgba(63, 185, 80, 0.3);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.card-title {
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.card-close {
+    background: none;
+    border: none;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.card-close:hover {
+    color: var(--color-bg);
+    background: var(--color-border);
+}
+
+.card-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    margin-bottom: 2px;
+}
+
+.card-row span:last-child {
+    font-family: monospace;
+}
+
+.cost-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--color-highlight);
+    color: var(--color-bg);
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 2px 5px;
+    border-radius: 4px;
 }

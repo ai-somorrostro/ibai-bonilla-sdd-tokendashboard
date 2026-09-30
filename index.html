@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM Token Cost Dashboard - Visualizations</title>
+    <title>LLM Token Cost Dashboard - Detail View</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -32,6 +32,15 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id="tooltip" class="tooltip"></div>
+    <div id="dailyPanel" class="side-panel">
+        <h3>Daily Cost Comparison</h3>
+        <div id="dailyPinned" class="pinned-models"></div>
+    </div>
+    <div id="weeklyPanel" class="side-panel">
+        <h3>Weekly Cost Comparison</h3>
+        <div id="weeklyPinned" class="pinned-models"></div>
     </div>
     <script src="app.js"></script>
 </body>
