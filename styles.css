@@ -1,0 +1,83 @@
+/* Dashboard Display - Minimal table styling */
+
+:root {
+    --color-bg: #ebd8db;
+    --color-border: #962f2b;
+    --color-text: #a12737;
+    --color-header-bg: #962f2b;
+    --color-header-text: #ebd8db;
+    --color-row-hover: #f5e6e8;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+    font-weight: 800;
+}
+
+.subtitle {
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 4px 6px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+th {
+    background: var(--color-header-bg);
+    color: var(--color-header-text);
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover {
+    background: var(--color-row-hover);
+}
+
+td {
+    font-family: monospace;
+    white-space: nowrap;
+}
+
+td:first-child {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-weight: 700;
+}

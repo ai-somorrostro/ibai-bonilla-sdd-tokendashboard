@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Token Cost Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LLM Token Cost Dashboard</h1>
+        <p class="subtitle">10 models compared</p>
+        <table id="modelTable">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Input Price (USD/token)</th>
+                    <th>Output Price (USD/token)</th>
+                    <th>TTFT (ms)</th>
+                    <th>Input Modality</th>
+                    <th>Output Modality</th>
+                    <th>Input Tokens (Day)</th>
+                    <th>Output Tokens (Day)</th>
+                    <th>Input Tokens (Week)</th>
+                    <th>Output Tokens (Week)</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
