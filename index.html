@@ -3,26 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM Token Cost Dashboard</title>
+    <title>LLM Token Cost Dashboard - Sorting & Filtering</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>LLM Token Cost Dashboard</h1>
         <p class="subtitle">10 models compared</p>
+        <div class="filters">
+            <input type="text" id="filterName" placeholder="Filter by name...">
+            <select id="filterModality">
+                <option value="">All Modalities</option>
+            </select>
+        </div>
         <table id="modelTable">
             <thead>
                 <tr>
-                    <th>Model</th>
-                    <th>Input Price (USD/token)</th>
-                    <th>Output Price (USD/token)</th>
-                    <th>TTFT (ms)</th>
-                    <th>Input Modality</th>
-                    <th>Output Modality</th>
-                    <th>Input Tokens (Day)</th>
-                    <th>Output Tokens (Day)</th>
-                    <th>Input Tokens (Week)</th>
-                    <th>Output Tokens (Week)</th>
+                    <th data-sort="name" class="sortable">Model <span class="sort-icon"></span></th>
+                    <th data-sort="inputPricePerToken" class="sortable">Input Price (USD/token) <span class="sort-icon"></span></th>
+                    <th data-sort="outputPricePerToken" class="sortable">Output Price (USD/token) <span class="sort-icon"></span></th>
+                    <th data-sort="ttft_ms" class="sortable">TTFT (ms) <span class="sort-icon"></span></th>
+                    <th data-sort="inputModality" class="sortable">Input Modality <span class="sort-icon"></span></th>
+                    <th data-sort="outputModality" class="sortable">Output Modality <span class="sort-icon"></span></th>
+                    <th data-sort="inputTokensDay" class="sortable">Input Tokens (Day) <span class="sort-icon"></span></th>
+                    <th data-sort="outputTokensDay" class="sortable">Output Tokens (Day) <span class="sort-icon"></span></th>
+                    <th data-sort="inputTokensWeek" class="sortable">Input Tokens (Week) <span class="sort-icon"></span></th>
+                    <th data-sort="outputTokensWeek" class="sortable">Output Tokens (Week) <span class="sort-icon"></span></th>
                 </tr>
             </thead>
             <tbody id="tableBody">
