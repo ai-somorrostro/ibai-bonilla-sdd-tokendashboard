@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Token Cost Dashboard - Visualizations</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>LLM Token Cost Dashboard</h1>
+        <p class="subtitle">10 models compared</p>
+        <div class="charts-section">
+            <div class="chart-half">
+                <h2>Daily Cost</h2>
+                <div class="chart-container">
+                    <canvas id="dailyChart"></canvas>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-color input-color"></span> Input Cost</span>
+                        <span class="legend-item"><span class="legend-color output-color"></span> Output Cost</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-half">
+                <h2>Weekly Cost</h2>
+                <div class="chart-container">
+                    <canvas id="weeklyChart"></canvas>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-color input-color"></span> Input Cost</span>
+                        <span class="legend-item"><span class="legend-color output-color"></span> Output Cost</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

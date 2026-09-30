@@ -1,0 +1,107 @@
+/* Visualizations - Chart styling */
+
+:root {
+    --color-bg: #ebd8db;
+    --color-border: #962f2b;
+    --color-text: #a12737;
+    --color-input-bar: #b62225;
+    --color-output-bar: #9bc6e5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 1.4rem;
+    margin-bottom: 2px;
+    font-weight: 800;
+}
+
+.subtitle {
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+}
+
+.charts-section {
+    margin-top: 8px;
+    display: flex;
+    gap: 12px;
+    min-height: 400px;
+}
+
+.chart-half {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.chart-half h2 {
+    font-size: 1rem;
+    margin: 0 0 6px;
+    font-weight: 800;
+}
+
+.chart-container {
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: 6px;
+    padding: 8px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container canvas {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    display: block;
+}
+
+.legend {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.legend-color {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+}
+
+.input-color {
+    background: var(--color-input-bar);
+}
+
+.output-color {
+    background: var(--color-output-bar);
+}
