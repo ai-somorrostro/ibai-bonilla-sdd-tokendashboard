@@ -1,116 +1,112 @@
-// Sorting & Filtering - Table with sort and filter capabilities
+// Visualizations - Canvas bar charts for daily and weekly costs
 
 const state = {
-    allModels: [],
-    sortColumn: null,
-    sortDirection: 'asc',
-    nameFilter: '',
-    modalityFilter: ''
+    allModels: []
 };
 
 fetch('mock-data.json')
     .then(response => response.json())
     .then(data => {
         state.allModels = data;
-        populateModalityFilter();
-        setupEventListeners();
-        renderTable();
+        renderCharts();
     })
     .catch(error => {
         console.error('Failed to load model data:', error);
     });
 
-function populateModalityFilter() {
-    const select = document.getElementById('filterModality');
-    const modalities = [...new Set(state.allModels.map(m => m.inputModality))];
-    modalities.forEach(mod => {
-        const option = document.createElement('option');
-        option.value = mod;
-        option.textContent = mod;
-        select.appendChild(option);
+function computeCosts(models, period) {
+    return models.map(m => {
+        const inputTokens = period === 'daily' ? m.inputTokensDay : m.inputTokensWeek;
+        const outputTokens = period === 'daily' ? m.outputTokensDay : m.outputTokensWeek;
+        return {
+            name: m.name,
+            inputCost: inputTokens * m.inputPricePerToken,
+            outputCost: outputTokens * m.outputPricePerToken
+        };
     });
 }
 
-function setupEventListeners() {
-    document.querySelectorAll('th.sortable').forEach(th => {
-        th.addEventListener('click', () => {
-            const column = th.dataset.sort;
-            if (state.sortColumn === column) {
-                state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
-            } else {
-                state.sortColumn = column;
-                state.sortDirection = 'asc';
-            }
-            renderTable();
-        });
-    });
+function renderBarChart(canvasId, period) {
+    const canvas = document.getElementById(canvasId);
+    const ctx = canvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
 
-    document.getElementById('filterName').addEventListener('input', (e) => {
-        state.nameFilter = e.target.value.toLowerCase();
-        renderTable();
-    });
+    const width = rect.width;
+    const height = rect.height;
+    const padding = { top: 20, right: 20, bottom: 40, left: 60 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
 
-    document.getElementById('filterModality').addEventListener('change', (e) => {
-        state.modalityFilter = e.target.value;
-        renderTable();
-    });
-}
+    const costData = computeCosts(state.allModels, period);
+    const maxCost = Math.max(...costData.flatMap(d => [d.inputCost, d.outputCost]));
+    const barGroupWidth = chartWidth / costData.length;
+    const barWidth = barGroupWidth * 0.3;
+    const barGap = barGroupWidth * 0.05;
 
-function getFilteredAndSorted() {
-    let models = [...state.allModels];
+    ctx.clearRect(0, 0, width, height);
 
-    if (state.nameFilter) {
-        models = models.filter(m => m.name.toLowerCase().includes(state.nameFilter));
+    // Draw axes
+    ctx.strokeStyle = '#962f2b';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padding.left, padding.top);
+    ctx.lineTo(padding.left, height - padding.bottom);
+    ctx.lineTo(width - padding.right, height - padding.bottom);
+    ctx.stroke();
+
+    // Draw Y-axis labels
+    ctx.fillStyle = '#a12737';
+    ctx.font = '11px system-ui';
+    ctx.textAlign = 'right';
+    const ySteps = 5;
+    for (let i = 0; i <= ySteps; i++) {
+        const value = (maxCost / ySteps) * i;
+        const y = height - padding.bottom - (value / maxCost) * chartHeight;
+        ctx.fillText('$' + value.toFixed(2), padding.left - 8, y + 4);
+        ctx.strokeStyle = '#962f2b';
+        ctx.beginPath();
+        ctx.moveTo(padding.left, y);
+        ctx.lineTo(width - padding.right, y);
+        ctx.stroke();
     }
 
-    if (state.modalityFilter) {
-        models = models.filter(m => m.inputModality === state.modalityFilter);
-    }
+    // Draw bars
+    costData.forEach((d, i) => {
+        const x = padding.left + i * barGroupWidth + barGroupWidth / 2;
 
-    if (state.sortColumn) {
-        models.sort((a, b) => {
-            let valA = a[state.sortColumn];
-            let valB = b[state.sortColumn];
-            if (typeof valA === 'string') {
-                valA = valA.toLowerCase();
-                valB = valB.toLowerCase();
-            }
-            if (valA < valB) return state.sortDirection === 'asc' ? -1 : 1;
-            if (valA > valB) return state.sortDirection === 'asc' ? 1 : -1;
-            return 0;
-        });
-    }
+        // Input bar
+        const inputHeight = (d.inputCost / maxCost) * chartHeight;
+        const inputX = x - barWidth - barGap / 2;
+        const inputY = height - padding.bottom - inputHeight;
+        ctx.fillStyle = '#b62225';
+        ctx.fillRect(inputX, inputY, barWidth, inputHeight);
 
-    return models;
-}
+        // Output bar
+        const outputHeight = (d.outputCost / maxCost) * chartHeight;
+        const outputX = x + barGap / 2;
+        const outputY = height - padding.bottom - outputHeight;
+        ctx.fillStyle = '#9bc6e5';
+        ctx.fillRect(outputX, outputY, barWidth, outputHeight);
 
-function renderTable() {
-    const tbody = document.getElementById('tableBody');
-    tbody.innerHTML = '';
-
-    const models = getFilteredAndSorted();
-
-    models.forEach(model => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${model.name}</td>
-            <td>${model.inputPricePerToken}</td>
-            <td>${model.outputPricePerToken}</td>
-            <td>${model.ttft_ms}</td>
-            <td>${model.inputModality}</td>
-            <td>${model.outputModality}</td>
-            <td>${model.inputTokensDay}</td>
-            <td>${model.outputTokensDay}</td>
-            <td>${model.inputTokensWeek}</td>
-            <td>${model.outputTokensWeek}</td>
-        `;
-        tbody.appendChild(row);
-    });
-
-    document.querySelectorAll('th.sortable').forEach(th => {
-        th.classList.remove('sort-asc', 'sort-desc');
-        if (th.dataset.sort === state.sortColumn) {
-            th.classList.add(state.sortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+        // X-axis label (truncated)
+        ctx.fillStyle = '#a12737';
+        ctx.font = 'bold 9px system-ui';
+        ctx.textAlign = 'center';
+        const maxLabelWidth = barGroupWidth - 4;
+        let label = d.name;
+        while (ctx.measureText(label).width > maxLabelWidth && label.length > 3) {
+            label = label.slice(0, -1);
         }
+        if (label !== d.name) label = label.slice(0, -1) + '...';
+        ctx.fillText(label, x, height - padding.bottom + 14);
     });
+}
+
+function renderCharts() {
+    renderBarChart('dailyChart', 'daily');
+    renderBarChart('weeklyChart', 'weekly');
 }

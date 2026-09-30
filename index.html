@@ -3,37 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LLM Token Cost Dashboard - Sorting & Filtering</title>
+    <title>LLM Token Cost Dashboard - Visualizations</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>LLM Token Cost Dashboard</h1>
         <p class="subtitle">10 models compared</p>
-        <div class="filters">
-            <input type="text" id="filterName" placeholder="Filter by name...">
-            <select id="filterModality">
-                <option value="">All Modalities</option>
-            </select>
+        <div class="charts-section">
+            <div class="chart-half">
+                <h2>Daily Cost</h2>
+                <div class="chart-container">
+                    <canvas id="dailyChart"></canvas>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-color input-color"></span> Input Cost</span>
+                        <span class="legend-item"><span class="legend-color output-color"></span> Output Cost</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-half">
+                <h2>Weekly Cost</h2>
+                <div class="chart-container">
+                    <canvas id="weeklyChart"></canvas>
+                    <div class="legend">
+                        <span class="legend-item"><span class="legend-color input-color"></span> Input Cost</span>
+                        <span class="legend-item"><span class="legend-color output-color"></span> Output Cost</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <table id="modelTable">
-            <thead>
-                <tr>
-                    <th data-sort="name" class="sortable">Model <span class="sort-icon"></span></th>
-                    <th data-sort="inputPricePerToken" class="sortable">Input Price (USD/token) <span class="sort-icon"></span></th>
-                    <th data-sort="outputPricePerToken" class="sortable">Output Price (USD/token) <span class="sort-icon"></span></th>
-                    <th data-sort="ttft_ms" class="sortable">TTFT (ms) <span class="sort-icon"></span></th>
-                    <th data-sort="inputModality" class="sortable">Input Modality <span class="sort-icon"></span></th>
-                    <th data-sort="outputModality" class="sortable">Output Modality <span class="sort-icon"></span></th>
-                    <th data-sort="inputTokensDay" class="sortable">Input Tokens (Day) <span class="sort-icon"></span></th>
-                    <th data-sort="outputTokensDay" class="sortable">Output Tokens (Day) <span class="sort-icon"></span></th>
-                    <th data-sort="inputTokensWeek" class="sortable">Input Tokens (Week) <span class="sort-icon"></span></th>
-                    <th data-sort="outputTokensWeek" class="sortable">Output Tokens (Week) <span class="sort-icon"></span></th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-            </tbody>
-        </table>
     </div>
     <script src="app.js"></script>
 </body>
